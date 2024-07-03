@@ -1,0 +1,51 @@
+#include <stdio.h>
+int main() {
+    int n, cost[10][10], minCost = 0;
+    int i, j, a, b, u, v, min, parent[10] = {0};
+
+    printf("Enter the number of nodes: ");
+    scanf("%d", &n);
+
+    printf("Enter the cost adjacency matrix:\n");
+    for (i = 1; i <= n; i++) {
+        for (j = 1; j <= n; j++) {
+            scanf("%d", &cost[i][j]);
+            if (cost[i][j] == 0)
+                cost[i][j] = 999;
+        }
+    }
+
+    printf("Minimum Spanning Tree Edges:\n");
+
+    while (n - 1) {
+        min = 999;
+        for (i = 1; i <= n; i++) {
+            for (j = 1; j <= n; j++) {
+                if (cost[i][j] < min) {
+                    min = cost[i][j];
+                    a = u = i;
+                    b = v = j;
+                }
+            }
+        }
+
+        while (parent[u])
+            u = parent[u];
+        while (parent[v])
+            v = parent[v];
+
+        if (u != v) {
+            printf("%d -> %d\n", a, b);
+            minCost += min;
+            parent[v] = u;
+            n--;
+        }
+        cost[a][b] = cost[b][a] = 999;
+    }
+
+    printf("Minimum Cost: %d\n", minCost);
+
+    return 0;
+}
+OUTPUT:
+Minimum Cost: 7
