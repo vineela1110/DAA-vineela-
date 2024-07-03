@@ -1,0 +1,53 @@
+#include <stdio.h>
+int main() {
+    int A[] = {56, 89, 7, 13, 75, 23, 8, 12};
+    int keyA = 75;
+    int nA = sizeof(A) / sizeof(A[0]);
+    int posA = -1;
+    for (int i = 0; i < nA; i++) {
+ {
+            posA = i;
+            break;
+        }
+    }
+    if (posA != -1) {
+        printf("Key element %d found in position %d\n", keyA, posA);
+    } else {
+        printf("Key element %d Not Found\n", keyA);
+    }
+    int B[] = {89, 45, -23, 45, 0, 44, 2};
+    int keyB = 0;
+    int nB = sizeof(B) / sizeof(B[0]);
+    int posB = -1;
+    for (int i = 0; i < nB; i++) {
+        if (B[i] == keyB) {
+            posB = i;
+            break;
+        }
+    }
+    if (posB != -1) {
+        printf("Key element %d found in position %d\n", keyB, posB);
+    } else {
+        printf("Key element %d Not Found\n", keyB);
+    }
+    int C[] = {45, 67, 56, 'A', 34, -2, 100};
+    int keyC = 90;
+    int nC = sizeof(C) / sizeof(C[0]);
+    int posC = -1;
+    for (int i = 0; i < nC; i++) {
+        if (C[i] == keyC) {
+            posC = i;
+            break;
+        }
+    }
+    if (posC != -1) {
+        printf("Key element %d found in position %d\n", keyC, posC);
+    } else {
+        printf("Key element %d Not Found\n", keyC);
+    }
+    return 0;
+}
+OUTPUT:
+Key element 75 found in position 0
+Key element 0 found in position 4
+Key element 90 Not Found
