@@ -1,0 +1,35 @@
+#include <stdio.h>
+int main() {
+    int knapsackWeight = 100;
+    int itemWeight[] = {40, 30, 20, 30};
+    int itemProfit[] = {80, 70, 50, 80};
+    int n = sizeof(itemWeight) / sizeof(itemWeight[0]);
+    int selectedItems[n];
+    int totalWeight = 0, totalProfit = 0;
+
+    for (int i = 0; i < n; i++) {
+        selectedItems[i] = 0;
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (totalWeight + itemWeight[i] <= knapsackWeight) {
+            selectedItems[i] = 1;
+            totalWeight += itemWeight[i];
+            totalProfit += itemProfit[i];
+        }
+    }
+
+    printf("Selected items:\n");
+    for (int i = 0; i < n; i++) {
+        if (selectedItems[i] == 1) {
+            printf("Item %d\n", i + 1);
+        }
+    }
+
+    printf("Total Profit: %d\n", totalProfit);
+
+    return 0;
+}
+OUTPUT:
+Item 3
+Total Profit: 200
