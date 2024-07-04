@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+typedef struct {
+    int x, y;
+} City;
+double distance(City city1, City city2) {
+    return sqrt(pow(city1.x - city2.x, 2) + pow(city1.y - city2.y, 2));
+}
+void swap(City* a, City* b) {
+    City temp = *a;
+    *a = *b;
+    *b = temp;
+}
+void permute(City cities[], int start, int end, City* shortestPath, double* shortestDistance, City startCity) {
+    if (start == end) {
+        double totalDistance = 0;
+        for (int i = 0; i < end; i++) {
+            totalDistance += distance(cities[i], cities[(i + 1) % end]);
+        }
+        totalDistance += distance(cities[end - 1], startCity);
+        if (*shortestDistance > totalDistance) {
+            *shortestDistance = totalDistance;
+            for (int i = 0; i < end; i++) {
+                shortestPath[i] = cities[i];
+            }
+            shortestPath[end] = startCity;
+        }
+    } else {
+        for (int i = start; i < end; i++) {
+            swap(&cities[start], &cities[i]);
+            permute(cities, start + 1, end, shortestPath, shortestDistance, startCity);
+            swap(&cities[start], &cities[i]); // backtrack
+        }
+    }
+}
+void tsp(City cities[], int n) {
+    City shortestPath[n + 1];
+    double shortestDistance = INFINITY;
+    permute(cities, 0, n - 1, shortestPath, &shortestDistance, cities[0]);
+    printf("Shortest distance: %.2f\n", shortestDistance);
+    printf("Shortest path: ");
+    for (int i = 0; i < n + 1; i++) {
+        printf("(%d, %d) ", shortestPath[i].x, shortestPath[i].y);
+    }
+    printf("\n");
+}
+int main() {
+    City cities[] = {{0, 0}, {10, 0}, {5, 5}, {0, 10}};
+    int n = sizeof(cities) / sizeof(cities[0]);
+    tsp(cities, n);
+    return 0;
+}
+OUTPUT:
+Shortest distance: 24.14
+Shortest path: (10, 0) (5, 5) (0, 0) (0, 0) (0, 0) 
