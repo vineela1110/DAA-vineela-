@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+int dice_throw(int num_sides, int num_dice, int target) {
+    int* dp = (int*) calloc((target + 1), sizeof(int));
+    dp[0] = 1;
+    for (int i = 1; i <= num_dice; i++) {
+        for (int j = target; j >= i; j--) {
+            for (int k = 1; k <= num_sides; k++) {
+                if (j - k >= 0) {
+                    dp[j] += dp[j - k];
+                }
+            }
+        }
+    }
+    int result = dp[target];
+    free(dp);
+    return result;
+}
+int main() {
+    int num_sides1 = 6;
+    int num_dice1 = 2;
+    int target1 = 7;
+    int num_sides2 = 4;
+    int num_dice2 = 3;
+    int target2 = 10;
+    printf("Test Case 1:\n");
+    printf("Number of ways to reach sum %d: %d\n", target1, dice_throw(num_sides1, num_dice1, target1));
+    printf("Test Case 2:\n");
+    printf("Number of ways to reach sum %d: %d\n", target2, dice_throw(num_sides2, num_dice2, target2));
+    return 0;
+}
+OUTPUT:
+Test Case 1:
+Number of ways to reach sum 7: 6
+Test Case 2:
+Number of ways to reach sum 10: 6
