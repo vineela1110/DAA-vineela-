@@ -1,0 +1,32 @@
+#include <string.h>
+int length_of_longest_substring(char* s) {
+    int n = strlen(s);
+    int max_len = 0;
+    int start = 0;
+    int char_index[256]; 
+    memset(char_index, -1, sizeof(char_index));
+    for (int i = 0; i < n; i++) {
+        if (char_index[(int)s[i]] != -1 && char_index[(int)s[i]] >= start) {
+            start = char_index[(int)s[i]] + 1;
+        }
+        char_index[(int)s[i]] = i;
+        max_len = max_len > i - start + 1 ? max_len : i - start + 1;
+    }
+    return max_len;
+}
+int main() {
+    char s1[] = "abcabcbb";
+    char s2[] = "bbbbb";
+    char s3[] = "pwwkew";
+    int res1 = length_of_longest_substring(s1);
+    int res2 = length_of_longest_substring(s2);
+    int res3 = length_of_longest_substring(s3);
+    printf("Length of longest substring without repeating characters in \"%s\": %d\n", s1, res1);
+    printf("Length of longest substring without repeating characters in \"%s\": %d\n", s2, res2);
+    printf("Length of longest substring without repeating characters in \"%s\": %d\n", s3, res3);
+    return 0;
+}
+OUTPUT:
+Length of longest substring without repeating characters in "abcabcbb": 3
+Length of longest substring without repeating characters in "bbbbb": 1
+Length of longest substring without repeating characters in "pwwkew": 3
