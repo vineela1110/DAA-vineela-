@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <limits.h>
+#define V 4 
+int min_distance(int dist[][V], int visited[], int n) {
+    int min = INT_MAX;
+    int min_index;
+    for (int i = 0; i < n; i++) {
+        if (visited[i] == 0 && dist[0][i] < min) {
+            min = dist[0][i];
+            min_index = i;
+        }
+    }
+    return min_index;
+}
+void tsp(int dist[][V], int n) {
+    int visited[V];
+    int current_vertex = 0;
+    int total_distance = 0;
+    for (int i = 0; i < n; i++) {
+        visited[i] = 0;
+    }
+    visited[0] = 1;
+    for (int i = 0; i < n - 1; i++) {
+        int next_vertex = min_distance(dist, visited, n);
+        total_distance += dist[current_vertex][next_vertex];
+        visited[next_vertex] = 1;
+        current_vertex = next_vertex;
+    }
+    total_distance += dist[current_vertex][0];
+    printf("Minimum path distance: %d\n", total_distance);
+}
+int main() {
+    int dist[][V] = {
+        {0, 10, 15, 20},
+        {10, 0, 35, 25},
+        {15, 35, 0, 30},
+        {20, 25, 30, 0}
+    };
+    tsp(dist, V);
+    return 0;
+}
+OUTPUT:
+Minimum path distance: 95
