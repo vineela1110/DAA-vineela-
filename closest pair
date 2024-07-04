@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <math.h>
+#include<float.h>
+typedef struct {
+    int x, y;
+} Point;
+float distance(Point p1, Point p2) {
+    return sqrtf(powf(p1.x - p2.x, 2) + powf(p1.y - p2.y, 2));
+}
+void closestPair(Point points[], int n) {
+    float minDist = FLT_MAX;
+    int minIndex1 = -1, minIndex2 = -1;
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            float dist = distance(points[i], points[j]);
+            if (dist < minDist) {
+                minDist = dist;
+                minIndex1 = i;
+                minIndex2 = j;
+            }
+        }
+    }
+    printf("Closest pair: (%d, %d) and (%d, %d) with distance %.2f\n",
+           points[minIndex1].x, points[minIndex1].y,
+           points[minIndex2].x, points[minIndex2].y,
+           minDist);
+}
+int main() {
+    Point points[] = {{1, 2}, {4, 5}, {7, 8}, {3, 1}};
+    int n = sizeof(points) / sizeof(points[0]);
+    closestPair(points, n);
+    return 0;
+}
+OUTPUT:
+Closest pair: (1, 2) and (3, 1) with distance 2.24
