@@ -1,0 +1,25 @@
+#include <stdio.h>
+int distinctCountSubarrays(int* nums, int numsSize) {
+    int result = 0;
+    for (int i = 0; i < numsSize; i++) {
+        int distinctCount = 0;
+        int freq[numsSize + 1];
+        for (int j = i; j < numsSize; j++) {
+            if (freq[nums[j]] == 0) {
+                distinctCount++;
+            }
+            freq[nums[j]]++;
+            result += distinctCount * distinctCount;
+        }
+    }
+    return result;
+}
+int main() {
+    int nums[] = {1, 2, 1};
+    int numsSize = sizeof(nums) / sizeof(nums[0]);
+    int result = distinctCountSubarrays(nums, numsSize);
+    printf("Sum of the squares of distinct counts of all subarrays: %d\n", result);
+    return 0;
+}
+OUTPUT:
+Sum of the squares of distinct counts of all subarrays: 9
