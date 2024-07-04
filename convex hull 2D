@@ -1,0 +1,44 @@
+#include <stdio.h>
+struct Point {
+    int x, y;
+};
+void convexHull(struct Point points[], int n) {
+    if (n < 3) {
+        printf("Convex hull not possible with less than 3 points\n");
+        return;
+    }
+    printf("Points on the Convex Hull are:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (i == j) continue;
+            int count = 0;
+            for (int k = 0; k < n; k++) {
+                if (k != i && k != j) {
+                    int crossProduct = (points[j].x - points[i].x) * (points[k].y - points[i].y) -
+                                       (points[j].y - points[i].y) * (points[k].x - points[i].x);
+                    if (crossProduct < 0) {
+                        count++;
+                    }
+                }
+            }
+            if (count == n - 2) {
+                printf("(%d, %d)\n", points[i].x, points[i].y);
+                printf("(%d, %d)\n", points[j].x, points[j].y);
+            }
+        }
+    }
+}
+int main() {
+    struct Point points[] = {{1, 1}, {4, 6}, {8, 1}, {0, 0}, {3, 3}};
+    int n = sizeof(points) / sizeof(points[0]);
+    convexHull(points, n);
+    return 0;
+}
+OUTPUT:
+Points on the Convex Hull are:
+(4, 6)
+(8, 1)
+(8, 1)
+(0, 0)
+(0, 0)
+(4, 6)
