@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define MAX_WORDS 1000
+#define MAX_LENGTH 10
+struct WordFilter {
+    char words[MAX_WORDS][MAX_LENGTH];
+    int size;
+};
+struct WordFilter* WordFilter_create(char** words, int wordsSize) {
+    struct WordFilter* obj = (struct WordFilter*)malloc(sizeof(struct WordFilter));
+    obj->size = wordsSize;
+    for (int i = 0; i < wordsSize; i++) {
+        strcpy(obj->words[i], words[i]);
+    }
+    return obj;
+}
+int WordFilter_f(struct WordFilter* obj, char* pref, char* suff) {
+    int maxIndex = -1;
+    for (int i = 0; i < obj->size; i++) {
+        if (strstr(obj->words[i], pref) == obj->words[i] && 
+            strstr(obj->words[i] + strlen(obj->words[i]) - strlen(suff), suff) == obj->words[i] + strlen(obj->words[i]) - strlen(suff)) {
+            maxIndex = i;
+        }
+    }
+    return maxIndex;
+}
+void WordFilter_free(struct WordFilter* obj) {
+    free(obj);
+}
+int main() {
+    char* words[] = {"apple"};
+    struct WordFilter* obj = WordFilter_create(words, 1);
+    printf("%d\n", WordFilter_f(obj, "a", "e"));
+    WordFilter_free(obj);
+    return 0;
+}
+OUTPUT:
+0
