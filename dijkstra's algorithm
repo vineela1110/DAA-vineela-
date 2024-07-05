@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <limits.h>
+#include<stdbool.h>
+#define MAX_VERTICES 100
+#define Infinity INT_MAX
+
+void dijkstra(int graph[][MAX_VERTICES], int n, int source) {
+    int distance[MAX_VERTICES];
+    bool visited[MAX_VERTICES];
+    for (int i = 0; i < n; i++) {
+        distance[i] = Infinity;
+        visited[i] = false;
+    }
+    distance[source] = 0;
+    for (int i = 0; i < n; i++) {
+        int min_distance = Infinity;
+        int min_index = -1;
+        for (int j = 0; j < n; j++) {
+            if (!visited[j] && distance[j] < min_distance) {
+                min_distance = distance[j];
+                min_index = j;
+            }
+        }
+        visited[min_index] = true;
+        for (int j = 0; j < n; j++) {
+            if (!visited[j] && graph[min_index][j]!= Infinity && distance[min_index] + graph[min_index][j] < distance[j]) {
+                distance[j] = distance[min_index] + graph[min_index][j];
+            }
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        printf("%d ", distance[i]);
+    }
+    printf("\n");
+}
+int main() {
+    int n = 5;
+    int graph[][MAX_VERTICES] = {{0, 10, 3, Infinity, Infinity}, {Infinity, 0, 1, 2, Infinity}, {Infinity, 4, 0, 8, 2},
+                                 {Infinity, Infinity, Infinity, 0, 7}, {Infinity, Infinity, Infinity, 9, 0}};
+    int source = 0;
+    printf("Output: ");
+    dijkstra(graph, n, source);
+    n = 5;
+    int graph2[][MAX_VERTICES] = {{0, 4, Infinity, Infinity, Infinity}, {Infinity, 0, 8, Infinity, Infinity}, {Infinity, Infinity, 0, 7, 4},
+                                 {Infinity, Infinity, Infinity, 0, 14}, {Infinity, Infinity, Infinity, 9, 0}};
+    source = 0;
+    printf("Output: ");
+    dijkstra(graph2, n, source);
+    return 0;
+}
+OUTPUT:
+ 0 7 3 9 5 
+ 0 4 12 19 16 
