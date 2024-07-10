@@ -1,0 +1,34 @@
+def has_hamiltonian_cycle(edges, n):
+    graph = [[] for _ in range(n)]
+    for u, v in edges:
+        graph[u].append(v)
+        graph[v].append(u)
+
+    def is_hamiltonian(path, v, visited):
+        if len(path) == n:
+            if v in graph[path[0]]:
+                return True
+            return False
+
+        for neighbor in graph[v]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                path.append(neighbor)
+                if is_hamiltonian(path, neighbor, visited):
+                    return True
+                path.pop()
+                visited.remove(neighbor)
+
+        return False
+
+    for v in range(n):
+        if is_hamiltonian([v], v, {v}):
+            return True
+
+    return False
+
+edges = [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (2, 4), (4, 0)]
+n = 5
+print(has_hamiltonian_cycle(edges, n))  
+OUTPUT:
+true
