@@ -1,0 +1,31 @@
+def visualize_board(board):
+    for row in board:
+        print(' '.join(['Q' if cell else '.' for cell in row]))
+def solve_n_queens(n):
+    def is_safe(board, row, col):
+        for i in range(row):
+            if board[i] == col or \
+               board[i] - i == col - row or \
+               board[i] + i == col + row:
+                return False
+        return True
+    def place_queens(n, row, board):
+        if row == n:
+            visualize_board(board)
+            print()
+            return
+        for col in range(n):
+            if is_safe(board, row, col):
+                board[row] = col
+                place_queens(n, row + 1, board)
+    board = [None] * n
+    place_queens(n, 0, board)
+solve_n_queens(4)
+solve_n_queens(5)
+solve_n_queens(8)
+OUTPUT:
+N = 4
+. Q..
+... Q
+Q...
+.. Q.
