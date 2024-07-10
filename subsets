@@ -1,0 +1,16 @@
+def subsets_with_element(nums, x):
+    def backtrack(start, path):
+        if x in path:
+            result.append(path[:])
+        for i in range(start, len(nums)):
+            path.append(nums[i])
+            backtrack(i + 1, path)
+            path.pop()
+    result = []
+    backtrack(0, [])
+    return result
+E = [2, 3, 4, 5]
+x = 3
+print(subsets_with_element(E, x))
+OUTPUT: 
+[[3], [2, 3], [3, 4], [3, 5], [2, 3, 4], [2, 3, 5], [3, 4, 5], [2, 3, 4, 5]]
